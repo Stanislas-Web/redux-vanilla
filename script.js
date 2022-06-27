@@ -21,7 +21,7 @@ const reducer = (state = initialState, action) => {
         case BUY_PHONE: 
             return {
                 ...state,
-                phones: state.phones - 1
+                phones: state.phones <= 0 ? 0 : state.phones - 1
             }
     
         default:
@@ -35,13 +35,21 @@ const store = Redux.createStore(reducer);
 console.log(store);
 
 const availablePhones = document.getElementById('count');
+let btn = document.getElementById('buy-phone');
 availablePhones.innerHTML = store.getState().phones;
 
-document.getElementById('buy-phone').addEventListener('click', ()=>{
+btn.addEventListener('click', ()=>{
     store.dispatch(buyPhone());
 
 });
 
 store.subscribe(()=>{
-    availablePhones.innerHTML = store.getState().phones;
+    
+    if (store.getState().phones == 0) {
+        availablePhones.innerHTML = store.getState().phones;
+        btn.style.display = "none";
+    } else {
+        availablePhones.innerHTML = store.getState().phones;
+        
+    }
 })
