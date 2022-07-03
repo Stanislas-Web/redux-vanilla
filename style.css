@@ -1,0 +1,26 @@
+
+body{
+    padding-top: 100px;
+}
+
+
+#container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    gap: 50px;
+}
+
+
+.child{
+
+    border: 1px solid #c4c4c4;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.child:hover{
+    background-color: #eeeeee;
+    cursor: pointer;
+}
