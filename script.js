@@ -86,6 +86,7 @@ let btnTv = document.getElementById('buy-tv');
 availablePhones.innerHTML = store.getState().phone.phones;
 availableTablets.innerHTML = store.getState().phone.tablets;
 availableTv.innerHTML = store.getState().tv.tv;
+console.log("initial state",store.getState());
 
 btn.addEventListener('click', ()=>{
     store.dispatch(buyPhone());
@@ -107,6 +108,8 @@ store.subscribe(()=>{
         availablePhones.innerHTML = store.getState().phone.phones;
         availableTablets.innerHTML = store.getState().phone.tablets;
         availableTv.innerHTML = store.getState().tv.tv;
+
+        console.log("update state",store.getState());
 
 })
 
