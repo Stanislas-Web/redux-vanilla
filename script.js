@@ -2,6 +2,7 @@
 //Action
 const BUY_PHONE = 'BUY_PHONE';
 const BUY_TABLET = 'BUY_TABLET';
+const BUY_TV = 'BUY_TV';
 
 function buyPhone() {
     return {
@@ -15,16 +16,25 @@ function buyTablet() {
     }
 }
 
-// Reducer
+function buyTv() {
+    return {
+        type: BUY_TV
+    }
+}
 
-// (prevState, action) => newState
 
-const initialState = {
+
+
+const initialStatePhones = {
     phones: 5,
     tablets: 10
 }
 
-const reducer = (state = initialState, action) => {
+const initialStateTv = {
+    tv: 20,
+}
+
+const reducerPhones = (state = initialStatePhones, action) => {
     switch (action.type) {
         case BUY_PHONE: 
             return {
@@ -44,7 +54,26 @@ const reducer = (state = initialState, action) => {
 
 }
 
-const store = Redux.createStore(reducer);
+const reducerTv = (state = initialStateTv, action) => {
+    switch (action.type) {
+        case BUY_TV: 
+            return {
+                ...state,
+                tv: state.tv <= 0 ? 0 : state.tv - 1
+            }
+    
+        default:
+            return state;
+    }
+
+}
+
+const rootReducer = Redux.combineReducers({
+    phone: reducerPhones,
+    tv: reducerTv
+})
+
+const store = Redux.createStore(rootReducer);
 
 console.log(store);
 
@@ -52,8 +81,11 @@ const availablePhones = document.getElementById('count');
 let btn = document.getElementById('buy-phone');
 const availableTablets = document.getElementById('count-tab');
 let btnTab = document.getElementById('buy-tab');
-availablePhones.innerHTML = store.getState().phones;
-availableTablets.innerHTML = store.getState().tablets;
+const availableTv = document.getElementById('count-tv');
+let btnTv = document.getElementById('buy-tv');
+availablePhones.innerHTML = store.getState().phone.phones;
+availableTablets.innerHTML = store.getState().phone.tablets;
+availableTv.innerHTML = store.getState().tv.tv;
 
 btn.addEventListener('click', ()=>{
     store.dispatch(buyPhone());
@@ -65,26 +97,19 @@ btnTab.addEventListener('click', ()=>{
 
 });
 
-store.subscribe(()=>{
-    
-    if (store.getState().phones == 0) {
-        availablePhones.innerHTML = store.getState().phones;
-        btn.style.display = "none";
-    } else {
-        availablePhones.innerHTML = store.getState().phones;
-        
-    }
-})
+btnTv.addEventListener('click', ()=>{
+    store.dispatch(buyTv());
+
+});
 
 store.subscribe(()=>{
     
-    if (store.getState().tablets == 0) {
-        availableTablets.innerHTML = store.getState().tablets;
-        btnTab.style.display = "none";
-    } else {
-        availableTablets.innerHTML = store.getState().tablets;
-        
-    }
+        availablePhones.innerHTML = store.getState().phone.phones;
+        availableTablets.innerHTML = store.getState().phone.tablets;
+        availableTv.innerHTML = store.getState().tv.tv;
+
 })
+
+
 
 
